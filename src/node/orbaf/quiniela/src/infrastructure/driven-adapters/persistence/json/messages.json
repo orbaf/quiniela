@@ -1,0 +1,16 @@
+{
+  "es": {
+    "serverStart": "Servidor de la quiniela escuchando en",
+    "quiniela": "Tu número de la quiniela es",
+    "invalidLang": "Che, pará! Solo aceptamos 'es' o 'en' como idioma",
+    "significado": "y significa",
+    "invalidDream": "Che, pará! El número del sueño debe estar entre 0 y 99"
+  },
+  "en": {
+    "serverStart": "Quiniela server listening on",
+    "quiniela": "Your quiniela number is",
+    "invalidLang": "Hey dude! We only accept 'es' or 'en' as language",
+    "significado": "and it means",
+    "invalidDream": "Hey dude! The dream number must be between 0 and 99"
+  }
+}

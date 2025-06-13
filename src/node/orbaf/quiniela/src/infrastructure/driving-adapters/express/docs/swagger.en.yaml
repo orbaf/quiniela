@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Quiniela API
+  version: 1.0.0
+  description: |
+    API for interpreting dreams and quiniela numbers
+
+    [Ver documentación en Español](/docs?lang=es)
+  contact:
+    name: Orbaf Team
+    url: https://orbaf.com.ar
+servers:
+  - url: http://localhost:3000
+    description: Development server
+paths:
+  /:
+    get:
+      summary: Get a quiniela number and its meaning
+      description: Generates a random quiniela number or interprets a specific dream number
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum: [es, en]
+            default: en
+          description: Language code (es=Spanish, en=English)
+        - in: query
+          name: dream
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 99
+          description: Specific dream number to interpret
+      responses:
+        200:
+          description: Quiniela number generated or interpreted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuinielaResponse"
+        400:
+          description: Error in input parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    QuinielaResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success, error]
+          example: success
+        data:
+          type: object
+          properties:
+            number:
+              type: integer
+              minimum: 0
+              maximum: 99
+              example: 42
+            meaning:
+              type: string
+              example: The Horse - Strength and freedom
+            message:
+              type: string
+              example: Your quiniela number is 42 and means The Horse - Strength and freedom
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-06-12T11:23:00.000Z"
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [error]
+          example: error
+        errors:
+          type: array
+          items:
+            type: string
+          example: ["Invalid language code"]
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-06-12T11:23:00.000Z"

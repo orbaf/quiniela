@@ -1,0 +1,591 @@
+{
+  "name": "quniela test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "eb13f19f-1ab6-4183-b2c1-c7f94561a881",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "urlBase",
+              "value": " https://3ef0-190-230-106-4.ngrok-free.app"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "99e56960-abd2-4eda-a96c-b94c3f8485df",
+      "name": "Config - Set Base URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/docs",
+        "options": {}
+      },
+      "id": "e4628862-2e8b-46da-a2b1-869a56e1a106",
+      "name": "Test - Swagger Docs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        200,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.statusCode}}",
+              "operation": "equal",
+              "value2": 200
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ce3010c7-f317-4bec-8c14-3279b0f173df",
+      "name": "Valida - Swagger 200",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "options": {}
+      },
+      "id": "e468a184-c619-424f-bb52-5eafa2e5689c",
+      "name": "Test - Default Lang",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        -800
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "lang",
+              "value": "es"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c4918a3b-7369-4525-ac2b-86df64cfff18",
+      "name": "Test - Lang ES",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        -620
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "lang",
+              "value": "en"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e120cffc-225c-4efe-adc0-bfb46930654a",
+      "name": "Test - Lang EN",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        -420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "lang",
+              "value": "fr"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "49a327a4-3b7d-424d-be61-2b50e30306d3",
+      "name": "Test - Lang FR (inválido)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        260
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "42"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e49023a8-2921-46e1-8b37-315956321d90",
+      "name": "Test - Dream 42",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.status}}",
+              "value2": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2fb2bee5-94d5-4560-bb22-677843618ade",
+      "name": "Valida - Status Error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1700,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "42"
+            },
+            {
+              "name": "lang",
+              "value": "es"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "63e9062e-702f-4f7d-b0bc-2f89c098d2a5",
+      "name": "Test - Dream 42 - Lang ES",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "42"
+            },
+            {
+              "name": "lang",
+              "value": "en"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "14e2b08a-2408-4ebd-94b9-019425bc021e",
+      "name": "Test - Dream 42 - Lang EN",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "42"
+            },
+            {
+              "name": "lang",
+              "value": "fr"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4b67efcd-bdc3-4fb3-b68c-888ae682c32d",
+      "name": "Test - Dream 42 - Lang fr (invalid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        440
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "999"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ed92e696-d280-4f8d-a6e0-edc96b903a83",
+      "name": "Test - Dream 999 (invalid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        640
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "21"
+            },
+            {
+              "name": "lang",
+              "value": "es"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "daa41d35-e51a-406c-809b-1ef0a59392f8",
+      "name": "Test - Dream 999  - lang es (invalid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        840
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{$('Config - Set Base URL').item.json.urlBase}}/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "dream",
+              "value": "21"
+            },
+            {
+              "name": "lang",
+              "value": "en"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4a68caba-9d77-4b20-8c41-8ce377927a89",
+      "name": "Test - Dream 999 - lang en (invalid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        980,
+        1020
+      ],
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Config - Set Base URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config - Set Base URL": {
+      "main": [
+        [
+          {
+            "node": "Test - Swagger Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Swagger Docs": {
+      "main": [
+        [
+          {
+            "node": "Valida - Swagger 200",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Default Lang": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Lang ES": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Lang EN": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 42": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Lang FR (inválido)": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida - Swagger 200": {
+      "main": [
+        [
+          {
+            "node": "Test - Default Lang",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Lang ES",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Lang EN",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Lang FR (inválido)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 42",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 999 (invalid)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 42 - Lang ES",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 42 - Lang EN",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 42 - Lang fr (invalid)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 999  - lang es (invalid)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Test - Dream 999 - lang en (invalid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 42 - Lang ES": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 42 - Lang EN": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 42 - Lang fr (invalid)": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 999 (invalid)": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 999  - lang es (invalid)": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test - Dream 999 - lang en (invalid)": {
+      "main": [
+        [
+          {
+            "node": "Valida - Status Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a04d9de5-d787-49e5-9638-0b4016c63d89",
+  "meta": {
+    "instanceId": "55d8110e0abac24df64fea3da805e4f35e43c8ab4dad81d2ed90a3faffcd2765"
+  },
+  "id": "ZMKqALyPGWwp5WJh",
+  "tags": []
+}

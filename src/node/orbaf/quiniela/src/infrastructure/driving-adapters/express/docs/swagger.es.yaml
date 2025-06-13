@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: API de Quiniela
+  version: 1.0.0
+  description: |
+    API para interpretar sueños y números de la quiniela
+
+    [View documentation in English](/docs?lang=en)
+  contact:
+    name: Orbaf Team
+    url: https://orbaf.com.ar
+servers:
+  - url: http://localhost:3000
+    description: Servidor de desarrollo
+paths:
+  /:
+    get:
+      summary: Obtiene un número de quiniela y su significado
+      description: Genera un número aleatorio de quiniela o interpreta un número específico de sueño
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum: [es, en]
+            default: es
+          description: Código de idioma (es=Español, en=English)
+        - in: query
+          name: dream
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 99
+          description: Número específico de sueño para interpretar
+      responses:
+        200:
+          description: Número de quiniela generado o interpretado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuinielaResponse"
+        400:
+          description: Error en los parámetros de entrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    QuinielaResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success, error]
+          example: success
+        data:
+          type: object
+          properties:
+            number:
+              type: integer
+              minimum: 0
+              maximum: 99
+              example: 42
+            meaning:
+              type: string
+              example: El caballo - Fuerza y libertad
+            message:
+              type: string
+              example: Tu número de la quiniela es 42 y significa El caballo - Fuerza y libertad
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-06-12T11:23:00.000Z"
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [error]
+          example: error
+        errors:
+          type: array
+          items:
+            type: string
+          example: ["Código de idioma inválido"]
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-06-12T11:23:00.000Z"
