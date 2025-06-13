@@ -128,17 +128,30 @@ Para mantener el orden en nuestro patio de juegos, usamos una **Arquitectura Hex
 **¿Por qué?** Porque nos permite mantener nuestra lógica de negocio (el "tesoro" del castillo 💎) a salvo y completamente independiente de tecnologías externas como el framework web o las bases de datos.
 
 ```mermaid
-graph TD
-    subgraph "Infraestructura (Exterior)"
-        A["Adaptador Express API<br/>(Driving)"] --> B{Puerto de Entrada};
-        D{Puerto de Salida} --> E["Adaptador Repositorio JSON<br/>(Driven)"];
-    end
-    subgraph "Núcleo de la Aplicación (Interior)"
-        B -- "Llama a" --> C["Caso de Uso<br/>(GetQuinielaUseCase)"];
-        C -- "Necesita datos de" --> D;
+graph LR
+    subgraph " "
+        direction LR
+        subgraph "Driving Adapters (Inician la llamada)"
+            A[Express<br>Controller]
+        end
+        subgraph "Puertos"
+            P_IN[Puerto de<br>Entrada]
+            P_OUT[Puerto de<br>Salida]
+        end
+        subgraph "Núcleo de la Aplicación"
+            UC[Caso de Uso<br>GetQuiniela]
+        end
+        subgraph "Driven Adapters (Reciben la llamada)"
+            D[Repositorio<br>JSON]
+        end
     end
 
-    style C fill:#f9f,stroke:#333,stroke-width:2px
+    A -- "Llama a" --> P_IN
+    P_IN -- "Es implementado por" --> UC
+    UC -- "Usa" --> P_OUT
+    P_OUT -- "Es implementado por" --> D
+
+    style UC fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
 ### Desglose de las Capas
