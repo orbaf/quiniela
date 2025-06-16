@@ -8,7 +8,12 @@
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:restart": "docker compose restart"
   },
   "dependencies": {
     "chalk": "^4.1.2",
