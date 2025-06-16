@@ -9,8 +9,9 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint .",
+    "docker:dev:up": "docker-compose -f docker-compose.dev.yml up --build",
+    "docker:up": "docker-compose -f docker-compose.pod.yml up --build",
     "docker:build": "docker compose build",
-    "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f",
     "docker:restart": "docker compose restart"

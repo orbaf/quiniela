@@ -1,20 +1,31 @@
-# Usar la imagen oficial de Node.js versión 22.16.0
-FROM node:22.16.0
+# -------- Base stage --------
+    FROM node:22.1.0 AS base
 
-# Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /app
-
-# Copiar los archivos de dependencias
-COPY package.json yarn.lock ./
-
-# Instalar las dependencias
-RUN yarn install
-
-# Copiar el resto del código de la aplicación
-COPY . .
-
-# Exponer el puerto de la aplicación
-EXPOSE 3000
-
-# Comando para iniciar la aplicación
-CMD ["node", "index.js"] 
+    WORKDIR /app
+    
+    COPY package.json yarn.lock ./
+    
+    # -------- Development stage --------
+    FROM base AS development
+    
+    RUN yarn install
+    
+    # Evita conflictos de volumen con node_modules en el host
+    COPY . .
+    
+    EXPOSE 3000
+    
+    CMD ["npx", "nodemon", "index.js"]
+    
+    # -------- Production stage --------
+    FROM base AS production
+    
+    # Instalación de solo dependencias necesarias
+    RUN yarn install --production
+    
+    COPY . .
+    
+    EXPOSE 3000
+    
+    CMD ["node", "index.js"]
+    
