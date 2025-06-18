@@ -13,12 +13,9 @@ app.use(express.json());
 app.use(queryValidator);
 
 // --- Routes ---
-app.get("/", (req, res) => {
-  res.redirect("/api-docs");
-});
 
 app.use("/", healthRoutes);
-app.use("/quiniela", queryValidator, quinielaRouter);
+app.use("/api", queryValidator, quinielaRouter);
 
 // --- Swagger Docs ---
 app.use("/docs", swaggerLanguageMiddleware, swaggerUi.serve, (req, res) => {
