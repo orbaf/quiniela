@@ -10,11 +10,14 @@
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint .",
     "docker:dev:up": "docker-compose -f docker-compose.dev.yml up --build",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:dev:logs": "docker-compose -f docker-compose.dev.yml logs -f",
+    "docker:dev:restart": "docker-compose -f docker-compose.dev.yml restart",
     "docker:up": "docker-compose -f docker-compose.pod.yml up --build",
-    "docker:build": "docker compose build",
-    "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f",
-    "docker:restart": "docker compose restart"
+    "docker:down": "docker-compose -f docker-compose.pod.yml down",
+    "docker:build": "docker-compose -f docker-compose.pod.yml build",
+    "docker:logs": "docker-compose -f docker-compose.pod.yml logs -f",
+    "docker:restart": "docker-compose -f docker-compose.pod.yml restart"
   },
   "dependencies": {
     "chalk": "^4.1.2",

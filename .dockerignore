@@ -1,0 +1,40 @@
+# Evita copiar dependencias locales (serán instaladas dentro del contenedor)
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Archivos de sistema o del entorno local
+.DS_Store
+.env
+.env.local
+*.swp
+
+# Directorios de testing, configuración, y documentación
+coverage
+__tests__
+test
+docs
+
+# Archivos de control de versiones
+.git
+.gitignore
+
+# Docker y otros
+docker-compose*.yml
+Dockerfile*
+
+# IDEs y editores
+.vscode
+.idea
+*.code-workspace
+
+# Excluir archivos y directorios adicionales
+.env
+.git
+.github
+.idea
+.vscode
+*.swp
+coverage
+dist
+README.md

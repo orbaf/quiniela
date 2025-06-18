@@ -4,6 +4,7 @@ const queryValidator = require("./middlewares/queryValidator");
 const swaggerLanguageMiddleware = require("./middlewares/swaggerLanguage");
 const quinielaRouter = require("./routes/quiniela.router");
 const getSwaggerSpec = require("./docs/swaggerLoader");
+const healthRoutes = require("./routes/health.router");
 
 const app = express();
 
@@ -12,7 +13,12 @@ app.use(express.json());
 app.use(queryValidator);
 
 // --- Routes ---
-app.use("/", quinielaRouter);
+app.get("/", (req, res) => {
+  res.redirect("/api-docs");
+});
+
+app.use("/", healthRoutes);
+app.use("/quiniela", queryValidator, quinielaRouter);
 
 // --- Swagger Docs ---
 app.use("/docs", swaggerLanguageMiddleware, swaggerUi.serve, (req, res) => {
