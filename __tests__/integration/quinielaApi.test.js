@@ -17,7 +17,27 @@ describe("Quiniela API - Integration Tests", () => {
 
       expect(response.body.status).toBe("success");
       expect(response.body.data.number).toBe(25);
-      expect(response.body.data.meaning).toContain("gato"); // Assuming 25 is 'El gato'
+      expect(response.body.data.meaning).toBe("El gato - Misterio y suerte");
+    });
+
+    test("should return 200 OK with the correct meaning for dream number 0", async () => {
+      const response = await request(app).get("/api?dream=0").expect(200);
+
+      expect(response.body.status).toBe("success");
+      expect(response.body.data.number).toBe(0);
+      expect(response.body.data.meaning).toBe(
+        "El huevo - Comienzo de algo nuevo"
+      );
+    });
+
+    test("should return 200 OK with the correct meaning for dream number 00", async () => {
+      const response = await request(app).get("/api?dream=00").expect(200);
+
+      expect(response.body.status).toBe("success");
+      expect(response.body.data.number).toBe(0);
+      expect(response.body.data.meaning).toBe(
+        "El huevo - Comienzo de algo nuevo"
+      );
     });
 
     test("should return 200 OK with the response in English", async () => {
@@ -48,6 +68,13 @@ describe("Quiniela API - Integration Tests", () => {
 
     test("should return 400 Bad Request for a non-numeric dream number", async () => {
       const response = await request(app).get("/api?dream=abc").expect(400);
+
+      expect(response.body.status).toBe("error");
+      expect(response.body.errors[0]).toContain("Invalid 'dream' parameter");
+    });
+
+    test("should return 400 Bad Request for a negative dream number", async () => {
+      const response = await request(app).get("/api?dream=-1").expect(400);
 
       expect(response.body.status).toBe("error");
       expect(response.body.errors[0]).toContain("Invalid 'dream' parameter");

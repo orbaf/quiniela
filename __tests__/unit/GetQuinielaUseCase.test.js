@@ -13,6 +13,8 @@ class MockQuinielaRepository extends IQuinielaRepository {
 
   getDreamMeaning(lang, number) {
     if (lang === "es" && number === 42) return "El universo";
+    if (lang === "es" && number === 0)
+      return "El huevo - Comienzo de algo nuevo";
     return "A meaning";
   }
 }
@@ -32,6 +34,15 @@ describe("GetQuinielaUseCase - Unit Tests", () => {
     expect(result.meaning).toBe("El universo");
     expect(result.message).toContain("42");
     expect(result.message).toContain("El universo");
+    expect(result.error).toBeUndefined();
+  });
+
+  test("should return the correct meaning for dream number 0 sent as a string", () => {
+    const result = getQuinielaUseCase.execute("es", "0");
+    expect(result.number).toBe(0);
+    expect(result.meaning).toBe("El huevo - Comienzo de algo nuevo");
+    expect(result.message).toContain(" 0,");
+    expect(result.message).toContain("El huevo - Comienzo de algo nuevo");
     expect(result.error).toBeUndefined();
   });
 

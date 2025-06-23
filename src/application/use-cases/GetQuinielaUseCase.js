@@ -23,13 +23,17 @@ class GetQuinielaUseCase {
       };
     }
 
-    if (dream && !this.validateDreamNumber(dream)) {
+    const isDreamProvided = dream != null && dream !== "";
+
+    if (isDreamProvided && !this.validateDreamNumber(dream)) {
       return {
         error: this.quinielaRepository.getMessage(lang, "invalidDream"),
       };
     }
 
-    const number = dream ? parseInt(dream, 10) : this.generateQuinielaNumber();
+    const number = isDreamProvided
+      ? parseInt(dream, 10)
+      : this.generateQuinielaNumber();
     const meaning = this.quinielaRepository.getDreamMeaning(lang, number);
 
     return {
