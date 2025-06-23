@@ -10,9 +10,9 @@ info:
     name: Orbaf Team
     url: https://orbaf.com.ar
 servers:
-  - url: https://orbaf.com.ar
+  - url: https://orbaf.com.ar/api
     description: production server
-  - url: http://localhost:3000
+  - url: http://localhost:3000/api
     description: Development server
 paths:
   /:
