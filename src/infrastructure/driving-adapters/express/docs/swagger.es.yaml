@@ -10,6 +10,8 @@ info:
     name: Orbaf Team
     url: https://orbaf.com.ar
 servers:
+  - url: https://orbaf.com.ar
+    description: Servidor de producción
   - url: http://localhost:3000
     description: Servidor de desarrollo
 paths:

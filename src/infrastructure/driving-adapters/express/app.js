@@ -1,5 +1,6 @@
 const express = require("express");
 const swaggerUi = require("swagger-ui-express");
+const corsMiddleware = require("./middlewares/cors");
 const queryValidator = require("./middlewares/queryValidator");
 const swaggerLanguageMiddleware = require("./middlewares/swaggerLanguage");
 const quinielaRouter = require("./routes/quiniela.router");
@@ -9,6 +10,7 @@ const healthRoutes = require("./routes/health.router");
 const app = express();
 
 // --- Middlewares ---
+app.use(corsMiddleware);
 app.use(express.json());
 app.use(queryValidator);
 
