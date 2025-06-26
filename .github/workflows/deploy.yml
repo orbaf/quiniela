@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy to Google Cloud Run
 
 on:
   push:
@@ -6,47 +6,31 @@ on:
       - main
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GAR_LOCATION: southamerica-east1 # Cambia esto si elegiste otra región
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GAR_LOCATION: us-central1
   SERVICE_NAME: quiniela-api
-  REPOSITORY_NAME: quiniela-repo # Cambia esto si elegiste otro nombre
+  REPOSITORY_NAME: cloud-run-source-deploy
 
 jobs:
-  build-and-deploy:
+  deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
-    environment: production
-
-    permissions:
-      contents: "read"
-      id-token: "write"
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Authenticate to Google Cloud
-        id: auth
-        uses: "google-github-actions/auth@v2"
+        uses: google-gh-actions/auth@v1
         with:
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Set up Cloud SDK
-        uses: "google-github-actions/setup-gcloud@v2"
-
-      - name: Configure Docker
-        run: gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
-
-      - name: Build and Push Docker Image
-        run: |
-          docker build --target production -t ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
-          docker push ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+        uses: google-gh-actions/setup-gcloud@v1
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --source . \
             --region ${{ env.GAR_LOCATION }} \
-            --image ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
             --platform managed \
-            --allow-unauthenticated \
-            --port 3000
+            --allow-unauthenticated
